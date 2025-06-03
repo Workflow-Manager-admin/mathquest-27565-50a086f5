@@ -41,7 +41,14 @@ function LandingPage({ onStart }: { onStart: () => void }) {
 }
 
 // PUBLIC_INTERFACE
-function Dashboard({ user, onPractice }: { user: any; onPractice: () => void }) {
+interface UserData {
+  name?: string;
+  streak?: number;
+  progress?: number;
+  recommended?: string;
+}
+
+function Dashboard({ user, onPractice }: { user: UserData; onPractice: () => void }) {
   // Placeholder data for demonstration
   const { name = "Adventurer", streak = 5, progress = 68, recommended = "Multiplication" } = user || {};
 
@@ -77,12 +84,12 @@ function Dashboard({ user, onPractice }: { user: any; onPractice: () => void }) 
 }
 
 // Utility for generating sample math problems
-function generateProblem(topic: string, difficulty: string) {
+function generateProblem(_topic: string, _difficulty: string) {
   // Very basic stub, replace with real generator
-  let a = Math.floor(Math.random() * 10 + 1);
-  let b = Math.floor(Math.random() * 10 + 1);
-  let answer = a + b;
-  let prompt = `${a} + ${b}`;
+  const a = Math.floor(Math.random() * 10 + 1);
+  const b = Math.floor(Math.random() * 10 + 1);
+  const answer = a + b;
+  const prompt = `${a} + ${b}`;
   return { prompt, answer, explanation: `To add ${a} and ${b}, just sum ${a} + ${b} = ${answer}.` };
 }
 
@@ -318,6 +325,9 @@ export default function MainContainer() {
     setFeedbackAnim(correct);
     setTimeout(() => setFeedbackAnim(null), 1400);
   }
+
+  // SideTab type
+  type SideTabType = "Leaderboard" | "Achievements";
 
   return (
     <main className="min-h-screen bg-[color:var(--color-background)] font-sans text-[color:var(--color-foreground)] flex flex-col items-center">
