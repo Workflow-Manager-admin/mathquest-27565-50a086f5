@@ -354,7 +354,7 @@ export default function MainContainer() {
       {/* MAIN PRACTICE AREA */}
       {showPractice && (
         <MathPracticeSection
-          onFeedback={(correct, explanation) => handleFeedback(correct)}
+          onFeedback={(correct) => handleFeedback(correct)}
         />
       )}
 
