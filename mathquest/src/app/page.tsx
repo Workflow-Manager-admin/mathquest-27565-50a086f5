@@ -94,6 +94,8 @@ function generateProblem() {
 }
 
 // PUBLIC_INTERFACE
+import { useEffect } from "react";
+
 function MathPracticeSection({
   onFeedback,
 }: {
@@ -101,9 +103,16 @@ function MathPracticeSection({
 }) {
   const [topic, setTopic] = useState("Addition");
   const [difficulty, setDifficulty] = useState("Easy");
-  const [problem, setProblem] = useState(generateProblem(topic, difficulty));
+  const [problem, setProblem] = useState(() => generateProblem());
   const [userAnswer, setUserAnswer] = useState("");
   const [feedback, setFeedback] = useState<null | { correct: boolean; explanation: string }>(null);
+
+  // Regenerate a new problem when topic or difficulty changes
+  useEffect(() => {
+    setProblem(generateProblem());
+    setUserAnswer("");
+    setFeedback(null);
+  }, [topic, difficulty]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -113,8 +122,7 @@ function MathPracticeSection({
   };
 
   const handleNext = () => {
-    const newProb = generateProblem(topic, difficulty);
-    setProblem(newProb);
+    setProblem(generateProblem());
     setUserAnswer("");
     setFeedback(null);
   };
@@ -127,10 +135,7 @@ function MathPracticeSection({
           <select
             id="topic"
             value={topic}
-            onChange={e => {
-              setTopic(e.target.value);
-              setProblem(generateProblem(e.target.value, difficulty));
-            }}
+            onChange={e => setTopic(e.target.value)}
             className="rounded px-2 py-1 bg-white border border-gray-300 focus:border-[color:#40916C]"
           >
             <option>Addition</option>
@@ -146,10 +151,7 @@ function MathPracticeSection({
           <select
             id="difficulty"
             value={difficulty}
-            onChange={e => {
-              setDifficulty(e.target.value);
-              setProblem(generateProblem(topic, e.target.value));
-            }}
+            onChange={e => setDifficulty(e.target.value)}
             className="rounded px-2 py-1 bg-white border border-gray-300 focus:border-[color:#40916C]"
           >
             <option>Easy</option>
