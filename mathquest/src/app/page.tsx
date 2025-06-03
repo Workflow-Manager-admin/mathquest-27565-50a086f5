@@ -280,11 +280,13 @@ function Achievements() {
   );
 }
 
+type SideTabType = "Leaderboard" | "Achievements";
+
 // Tabbed Sidebar for Leaderboard and Achievements
-function SideTabs({ tab, onTabChange }: { tab: string; onTabChange: (tab: string) => void }) {
+function SideTabs({ tab, onTabChange }: { tab: SideTabType; onTabChange: (tab: SideTabType) => void }) {
   return (
     <div className="w-full max-w-xs mx-auto flex gap-2 items-center mt-2 mb-2">
-      {["Leaderboard", "Achievements"].map((t) => (
+      {(["Leaderboard", "Achievements"] as SideTabType[]).map((t) => (
         <button
           key={t}
           onClick={() => onTabChange(t)}
@@ -306,7 +308,7 @@ export default function MainContainer() {
   const [showDashboard, setShowDashboard] = useState(false);
   const [showPractice, setShowPractice] = useState(false);
   const [feedbackAnim, setFeedbackAnim] = useState<null | boolean>(null); // true=correct anim, false=incorrect anim
-  const [sideTab, setSideTab] = useState<"Leaderboard" | "Achievements">("Leaderboard");
+  const [sideTab, setSideTab] = useState<SideTabType>("Leaderboard");
 
   // Example: before authentication, only landing page shows.
   // Toggle showDashboard/Practice for demonstration ("login" flow not implemented)
@@ -359,7 +361,7 @@ export default function MainContainer() {
       {/* Sidebar Tabs and Views: always visible after dashboard */}
       {showDashboard && (
         <div className="w-full max-w-xs mx-auto">
-          <SideTabs tab={sideTab} onTabChange={t => setSideTab(t as any)} />
+          <SideTabs tab={sideTab} onTabChange={(t: SideTabType) => setSideTab(t)} />
           {sideTab === "Leaderboard" ? <Leaderboard /> : <Achievements />}
         </div>
       )}
