@@ -84,7 +84,7 @@ function Dashboard({ user, onPractice }: { user: UserData; onPractice: () => voi
 }
 
 // Utility for generating sample math problems
-function generateProblem(_topic: string, _difficulty: string) {
+function generateProblem() {
   // Very basic stub, replace with real generator
   const a = Math.floor(Math.random() * 10 + 1);
   const b = Math.floor(Math.random() * 10 + 1);
